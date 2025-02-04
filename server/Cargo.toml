@@ -1,0 +1,10 @@
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5.1", features = ["json"] }
+rocket_db_pools = { version = "0.2.0", features = ["sqlx_sqlite"] }
+anyhow = "1.0.95"
+rand = "0.9.0"

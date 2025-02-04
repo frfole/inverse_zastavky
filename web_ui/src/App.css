@@ -1,0 +1,40 @@
+#root {
+    height: 100%;
+}
+
+.map-overlay {
+    position: absolute;
+    z-index: 10000;
+}
+
+.ReactModal__Overlay {
+    z-index: 10000;
+}
+
+.ReactModal__Content {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto auto;
+}
+
+.leaflet-container {
+    height: 100%;
+}
+
+.wrapper-mode-switcher {
+    left: 0;
+    right: 0;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+}
