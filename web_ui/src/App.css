@@ -30,6 +30,15 @@
     margin: 0 auto;
 }
 
+.wrapper-chain-container {
+    right: 0;
+}
+
+.App__CitySearch {
+    left: 0;
+    top: 20%
+}
+
 html {
     height: 100%;
 }

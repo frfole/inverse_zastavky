@@ -5,8 +5,33 @@ pub type StopId = i32;
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct Station {
-    stop_id: StopId,
+    pub stop_id: StopId,
     names: Vec<String>,
+    lat: f64,
+    lon: f64,
+}
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct ChainStation {
+    chain_hash: String,
+    name: String,
+    pos: i32,
+    stop_id: Option<StopId>,
+}
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct BaseStation {
+    lat: f64,
+    lon: f64,
+    name: String,
+}
+
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct BaseCity {
+    name: String,
     lat: f64,
     lon: f64,
 }
@@ -26,6 +51,34 @@ impl Station {
             lat,
             lon,
         }
+    }
+}
+
+impl ChainStation {
+    pub fn new(
+        chain_hash: String,
+        name: String,
+        pos: i32,
+        stop_id: Option<StopId>,
+    ) -> ChainStation {
+        ChainStation {
+            chain_hash,
+            name,
+            pos,
+            stop_id,
+        }
+    }
+}
+
+impl BaseStation {
+    pub fn new(lat: f64, lon: f64, name: String) -> BaseStation {
+        BaseStation { lat, lon, name }
+    }
+}
+
+impl BaseCity {
+    pub fn new(name: String, lat: f64, lon: f64) -> BaseCity {
+        BaseCity { name, lat, lon }
     }
 }
 

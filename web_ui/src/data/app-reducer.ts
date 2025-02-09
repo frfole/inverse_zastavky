@@ -3,28 +3,46 @@ import {AppState} from "./app-state.ts";
 import {LatLng} from "leaflet";
 
 export enum ActionType {
-    ModeChange,
+    ChangeMode,
     SetStations,
     UpdateStation,
     RemoveStation,
     MapClick,
 }
 
-export interface ReducerAction {
-    type: ActionType
-    mode?: Mode
-    new_stations?: Station[],
-    stop_id?: number,
-    station?: Station,
-    latLon?: LatLng,
+export interface ActionChangeMode {
+    type: ActionType.ChangeMode,
+    mode: Mode,
 }
+
+export interface ActionSetStations {
+    type: ActionType.SetStations,
+    new_stations: Station[],
+}
+
+export interface ActionUpdateStation {
+    type: ActionType.UpdateStation,
+    station: Station
+}
+
+export interface ActionRemoveStation {
+    type: ActionType.RemoveStation,
+    stop_id: number
+}
+
+export interface ActionMapClick {
+    type: ActionType.MapClick,
+    latLon: LatLng,
+}
+
+export type ReducerAction = ActionChangeMode | ActionSetStations | ActionUpdateStation | ActionRemoveStation | ActionMapClick
 
 export function appReducer(state: AppState, action: ReducerAction): AppState {
     switch (action.type) {
-        case ActionType.ModeChange: {
+        case ActionType.ChangeMode: {
             return {
                 ...state,
-                mode: action.mode as Mode,
+                mode: action.mode,
             }
         }
         case ActionType.SetStations: {

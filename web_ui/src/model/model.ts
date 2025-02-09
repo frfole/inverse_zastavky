@@ -3,7 +3,7 @@ import {LatLngBounds} from "leaflet";
 export enum Mode {
     Browse = 'browse',
     Editor = 'editor',
-    Test = 'test'
+    Locate = 'locate'
 }
 
 export class BBox {
@@ -34,4 +34,23 @@ export interface Station {
     lat: number,
     lon: number,
     names: string[]
+}
+
+export interface ChainStation {
+    chain_hash: string,
+    name: string,
+    pos: number,
+    stop_id: number | null
+}
+
+export interface BaseStation {
+    lat: number,
+    lon: number,
+    name: string
+}
+
+export interface BaseCity {
+    name: string,
+    lat: number,
+    lon: number
 }

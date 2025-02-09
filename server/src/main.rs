@@ -5,6 +5,7 @@ use rocket::http::Header;
 use rocket::{launch, routes, Request, Response};
 use rocket_db_pools::Database;
 
+mod api_base;
 mod api_chain;
 mod api_stations;
 mod database;
@@ -19,6 +20,10 @@ fn rocket() -> _ {
             "/api",
             routes![
                 api_chain::list_sl_chains,
+                api_chain::locate_by_id,
+                api_chain::locate_by_loc,
+                api_base::get_base_stations_by_bbox,
+                api_base::search_base_city,
                 api_stations::get_stations_by_bbox,
                 api_stations::add_station,
                 api_stations::rm_station,
@@ -27,7 +32,7 @@ fn rocket() -> _ {
                 api_stations::move_station,
             ],
         )
-        .mount("/", FileServer::from("web_ui"))
+        .mount("/", FileServer::from("web_ui/dist"))
 }
 
 struct CORS;

@@ -1,23 +1,23 @@
-.wrapper {
+.ModeSwitcher__wrapper {
     background-color: #bdbdbd;
     border-radius: 8px;
     border: 2px solid #9a9a9a;
 }
 
-.active-mode {
+.ModeSwitcher__active-mode {
     background-color: #e1e1e1;
     border-radius: 8px;
     border-color: transparent;
     transition-duration: 100ms;
 }
 
-.inactive-mode {
+.ModeSwitcher__inactive-mode {
     background-color: transparent;
     border-radius: 8px;
     border-color: transparent;
     transition-duration: 100ms;
 }
 
-.inactive-mode:hover {
+.ModeSwitcher__inactive-mode:hover {
     background-color: #cdcdcd;
 }

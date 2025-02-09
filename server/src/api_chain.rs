@@ -1,59 +1,94 @@
+use crate::database;
 use crate::database::MainDB;
+use crate::model::{ChainStation, Station, StopId};
 use rocket::serde::json::Json;
-use rocket::serde::Serialize;
 use rocket::{get, FromForm};
-use rocket_db_pools::sqlx::sqlite::SqliteRow;
-use rocket_db_pools::sqlx::{Error, FromRow, Row};
-use rocket_db_pools::{sqlx, Connection};
+use rocket_db_pools::Connection;
 
 #[derive(FromForm)]
-pub struct ListSlChains {
+pub struct ListSlChainsParams {
     limit: Option<u32>,
-    page: Option<u32>,
+    offset: Option<u32>,
 }
 
-#[derive(Serialize)]
-#[serde(crate = "rocket::serde")]
-pub struct SlChain {
+#[derive(FromForm)]
+pub struct LocateByIdParams {
     chain_hash: String,
-    station: String,
-    pos: u32,
+    name: String,
+    pos: i32,
+    stop_id: StopId,
 }
 
-impl ListSlChains {
+#[derive(FromForm)]
+pub struct LocateByLocParams {
+    chain_hash: String,
+    name: String,
+    pos: i32,
+    lat: f64,
+    lon: f64,
+}
+
+impl ListSlChainsParams {
     pub fn limit(&self) -> u32 {
         self.limit.unwrap_or(u32::MAX).min(50)
     }
 
     pub fn page(&self) -> u32 {
-        self.page.unwrap_or(0)
+        self.offset.unwrap_or(0)
     }
 }
 
-impl FromRow<'_, SqliteRow> for SlChain {
-    fn from_row(row: &'_ SqliteRow) -> Result<Self, Error> {
-        Ok(SlChain {
-            chain_hash: row.try_get("chain_hash")?,
-            station: row.try_get("station_name")?,
-            pos: row.try_get("pos")?,
-        })
-    }
-}
-
-#[get("/sl_chains?<options..>")]
+#[get("/sl_chains?<params..>")]
 pub async fn list_sl_chains(
     mut db: Connection<MainDB>,
-    options: ListSlChains,
-) -> Result<Json<Vec<SlChain>>, String> {
-    let limit = options.limit();
-    let page = options.page();
-    let chains = sqlx::query_as::<_, SlChain>("SELECT * FROM sl_chains LIMIT ? OFFSET ?")
-        .bind(limit)
-        .bind(page * limit)
-        .fetch_all(&mut **db)
-        .await;
-    if let Err(e) = chains {
-        return Err(format!("{}", e));
+    params: ListSlChainsParams,
+) -> Result<Json<Vec<ChainStation>>, String> {
+    let limit = params.limit();
+    let offset = params.page();
+    let chains = ChainStation::get_chains(&mut db, limit, offset).await;
+    match chains {
+        Ok(chains) => Ok(Json(chains)),
+        Err(err) => Err(format!("{}", err)),
     }
-    return Ok(Json(chains.unwrap()));
+}
+
+#[get("/locate_by_id?<params..>")]
+pub async fn locate_by_id(
+    mut db: Connection<MainDB>,
+    params: LocateByIdParams,
+) -> Result<Json<Station>, String> {
+    match database::locate_chain_by_id(
+        &mut db,
+        &params.chain_hash,
+        &params.name,
+        params.pos,
+        params.stop_id,
+    )
+    .await
+    {
+        Ok(Some(station)) => Ok(Json(station)),
+        Ok(None) => Err(String::from("no station found")),
+        Err(err) => Err(format!("{}", err)),
+    }
+}
+
+#[get("/locate_by_loc?<params..>")]
+pub async fn locate_by_loc(
+    mut db: Connection<MainDB>,
+    params: LocateByLocParams,
+) -> Result<Json<Station>, String> {
+    match database::locate_chain_by_loc(
+        &mut db,
+        &params.chain_hash,
+        &params.name,
+        params.pos,
+        params.lat,
+        params.lon,
+    )
+    .await
+    {
+        Ok(Some(station)) => Ok(Json(station)),
+        Ok(None) => Err(String::from("failed to create station")),
+        Err(err) => Err(format!("{}", err)),
+    }
 }

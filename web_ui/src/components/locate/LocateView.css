@@ -1,0 +1,13 @@
+.ChainContainer__wrapper {
+    background-color: aliceblue;
+    padding: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.ChainContainer__row-selected {
+    background-color: beige;
+}
+
+.ChainContainer__row-done {
+    color: grey;
+}
