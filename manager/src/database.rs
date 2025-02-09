@@ -1,4 +1,4 @@
-use sqlx::{Database, Pool, Sqlite};
+use sqlx::{Pool, Sqlite};
 
 pub async fn ensure_tables(db_pool: &Pool<Sqlite>) -> anyhow::Result<()> {
     sqlx::query(

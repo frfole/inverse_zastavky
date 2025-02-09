@@ -1,12 +1,11 @@
 use crate::{netex, App};
 use base64::Engine;
-use geojson::{Feature, FeatureCollection, Value};
+use geojson::{FeatureCollection, Value};
 use md5::{Digest, Md5};
-use sqlx::{Database, Pool, QueryBuilder, Sqlite};
+use sqlx::{Pool, QueryBuilder, Sqlite};
 use std::collections::HashMap;
 use std::fs::File;
-use std::hash::Hash;
-use std::io::{BufReader, Read};
+use std::io::BufReader;
 use std::path::PathBuf;
 
 impl App {

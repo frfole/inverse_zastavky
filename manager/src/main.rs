@@ -1,4 +1,5 @@
 mod database;
+mod export;
 mod import;
 mod netex;
 
@@ -25,6 +26,10 @@ enum Commands {
         #[arg(long, value_name = "GEOJSON FILE")]
         base_cities: Option<PathBuf>,
     },
+    Export {
+        #[arg(value_name = "OUTPUT GEOJSON FILE")]
+        output_file: PathBuf,
+    },
 }
 
 #[tokio::main]
@@ -47,6 +52,9 @@ async fn main() -> anyhow::Result<()> {
             if base_cities.is_some() {
                 App::import_base_cities(&db_pool, base_cities.unwrap()).await?;
             }
+        }
+        Commands::Export { output_file } => {
+            App::export(&db_pool, output_file).await?;
         }
     }
     Ok(())

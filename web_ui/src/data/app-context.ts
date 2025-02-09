@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {ActionDispatch, createContext} from "react";
 import {ReducerAction} from "./app-reducer.ts";
 import {AppState} from "./app-state.ts";

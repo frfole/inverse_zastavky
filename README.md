@@ -11,7 +11,7 @@ Nástroj pro tvorbu databáze poloh zastávek veřejné dopravy v České republ
    `cargo run --bin manager --db-url db.sqlite import --base-stations base_stations.geojson`
 4. Optionally import locations of cities
    `cargo run --bin manager --db-url db.sqlite import --base-cities base_cities.geojson`
-5. Build `web_ui` using `npm build`
+5. Build `web_ui` using `npm run build`
 6. Start server using `cargo run --bin server`
 
 ## Usage
