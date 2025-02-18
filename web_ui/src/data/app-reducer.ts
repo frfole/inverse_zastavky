@@ -8,6 +8,7 @@ export enum ActionType {
     UpdateStation,
     RemoveStation,
     MapClick,
+    SearchStations,
 }
 
 export interface ActionChangeMode {
@@ -35,7 +36,18 @@ export interface ActionMapClick {
     latLon: LatLng,
 }
 
-export type ReducerAction = ActionChangeMode | ActionSetStations | ActionUpdateStation | ActionRemoveStation | ActionMapClick
+export interface ActionSearchStations {
+    type: ActionType.SearchStations,
+    query: string,
+}
+
+export type ReducerAction =
+    ActionChangeMode
+    | ActionSetStations
+    | ActionUpdateStation
+    | ActionRemoveStation
+    | ActionMapClick
+    | ActionSearchStations
 
 export function appReducer(state: AppState, action: ReducerAction): AppState {
     switch (action.type) {
@@ -79,6 +91,12 @@ export function appReducer(state: AppState, action: ReducerAction): AppState {
             return {
                 ...state,
                 lastMapClick: (action.latLon as LatLng).clone()
+            }
+        }
+        case ActionType.SearchStations: {
+            return {
+                ...state,
+                stationSearch: action.query
             }
         }
     }

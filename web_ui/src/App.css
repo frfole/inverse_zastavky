@@ -36,7 +36,17 @@
 
 .App__CitySearch {
     left: 0;
-    top: 20%
+    top: 40%
+}
+
+.App__StationSearch {
+    left: 0;
+    top: 10%
+}
+
+.App_GetStats {
+    right: 0;
+    bottom: 10%;
 }
 
 html {

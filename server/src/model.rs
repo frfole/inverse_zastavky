@@ -36,6 +36,13 @@ pub struct BaseCity {
     lon: f64,
 }
 
+#[derive(Serialize)]
+#[serde(crate = "rocket::serde")]
+pub struct Stats {
+    pos_count: i32,
+    names_count: i32,
+}
+
 pub struct BBox {
     lat_from: f64,
     lat_to: f64,
@@ -106,5 +113,14 @@ impl BBox {
 
     pub fn lon_to(&self) -> f64 {
         self.lon_to
+    }
+}
+
+impl Stats {
+    pub fn new(pos_count: i32, names_count: i32) -> Stats {
+        Stats {
+            pos_count,
+            names_count,
+        }
     }
 }

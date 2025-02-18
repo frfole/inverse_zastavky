@@ -7,6 +7,7 @@ use rocket_db_pools::Database;
 
 mod api_base;
 mod api_chain;
+mod api_other;
 mod api_stations;
 mod database;
 mod model;
@@ -30,6 +31,8 @@ fn rocket() -> _ {
                 api_stations::add_station_name,
                 api_stations::rm_station_name,
                 api_stations::move_station,
+                api_stations::search_stations,
+                api_other::other_stats,
             ],
         )
         .mount("/", FileServer::from("web_ui/dist"))

@@ -1,4 +1,4 @@
-use crate::model::{BBox, BaseCity, BaseStation, ChainStation, Station, StopId};
+use crate::model::{BBox, BaseCity, BaseStation, ChainStation, Station, Stats, StopId};
 use rocket_db_pools::sqlx::pool::PoolConnection;
 use rocket_db_pools::sqlx::sqlite::SqliteRow;
 use rocket_db_pools::sqlx::{query, Row, Sqlite};
@@ -166,6 +166,28 @@ SELECT stop_id, lat, lon, station_name FROM el_station_names
         .await?;
         Self::from_rows(stop_id, &rows)
     }
+
+    pub async fn search(
+        db: &mut PoolConnection<Sqlite>,
+        search: &str,
+    ) -> Result<Vec<Self>, sqlx::Error> {
+        let rows: Vec<SqliteRow> = query(
+            "SELECT stop_id, lat, lon, station_name FROM el_station_names
+    JOIN el_station_pos USING (stop_id) WHERE station_name LIKE $1 LIMIT 50;",
+        )
+        .bind(search)
+        .fetch_all(&mut **db)
+        .await?;
+        let mut stations = Vec::new();
+        for row in rows {
+            let stop_id = row.try_get(0)?;
+            let lat = row.try_get(1)?;
+            let lon = row.try_get(2)?;
+            let name = row.try_get(3)?;
+            stations.push(Self::new(stop_id, vec![name], lat, lon));
+        }
+        Ok(stations)
+    }
 }
 
 impl ChainStation {
@@ -238,6 +260,21 @@ impl BaseCity {
             cities.push(Self::new(name, lat, lon));
         }
         Ok(cities)
+    }
+}
+
+impl Stats {
+    pub async fn get(db: &mut PoolConnection<Sqlite>) -> Result<Self, sqlx::Error> {
+        let rows: Vec<SqliteRow> = query(
+            "SELECT count(*) FROM el_station_pos;
+    SELECT count(*) FROM el_station_names;
+    ",
+        )
+        .fetch_all(&mut **db)
+        .await?;
+        let pos_count = rows.get(0).unwrap().try_get(0)?;
+        let names_count = rows.get(1).unwrap().try_get(0)?;
+        Ok(Stats::new(pos_count, names_count))
     }
 }
 

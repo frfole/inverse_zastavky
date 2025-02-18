@@ -29,6 +29,10 @@ export function LocateView() {
                     type: LocateActionType.SetChainStations,
                     newStations: chainStations
                 })
+                appDispatch({
+                    type: ActionType.SearchStations,
+                    query: chainStations[state.selectedIdx].name
+                })
             })
         if (inputOffset.current) inputOffset.current.value = String(state.offset + state.selectedIdx)
         return () => {

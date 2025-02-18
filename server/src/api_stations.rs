@@ -1,5 +1,5 @@
 use crate::database::MainDB;
-use crate::model::{BBox, Station, StopId};
+use crate::model::{BBox, BaseCity, Station, StopId};
 use rocket::serde::json::Json;
 use rocket::{get, FromForm};
 use rocket_db_pools::Connection;
@@ -125,6 +125,18 @@ pub async fn rm_station_name(
     match station {
         Ok(Some(station)) => Ok(Json(station)),
         Ok(None) => Err(String::from("no station updated")),
+        Err(err) => Err(format!("{}", err)),
+    }
+}
+
+#[get("/el_stations_search?<query>")]
+pub async fn search_stations(
+    mut db: Connection<MainDB>,
+    query: String,
+) -> Result<Json<Vec<Station>>, String> {
+    let cities = Station::search(&mut db, &query).await;
+    match cities {
+        Ok(cities) => Ok(Json(cities)),
         Err(err) => Err(format!("{}", err)),
     }
 }

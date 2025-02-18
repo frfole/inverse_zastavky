@@ -54,3 +54,8 @@ export interface BaseCity {
     lat: number,
     lon: number
 }
+
+export interface Stats {
+    pos_count: number,
+    names_count: number,
+}

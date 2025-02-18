@@ -4,7 +4,7 @@ import {MapContainer, TileLayer} from "react-leaflet";
 import ModeSwitcher from "./components/ModeSwitcher/ModeSwitcher.tsx";
 import {BBox, Mode} from "./model/model.ts";
 import {MapRef} from "react-leaflet/MapContainer";
-import {createStation, getStations} from "./data/interact.ts";
+import {createStation, getStations, getStats} from "./data/interact.ts";
 import {StationMarker} from "./components/browse/StationMarker.tsx";
 import {EditableStationMarker} from "./components/editor/EditableStationMarker.tsx";
 import {AddStationDialog} from "./components/editor/AddStationDialog.tsx";
@@ -14,6 +14,7 @@ import ReactModal from "react-modal";
 import {AppContext, AppDispatchContext} from "./data/app-context.ts";
 import {LocateView} from "./components/locate/LocateView.tsx";
 import {CitySearch} from "./components/common/CitySearch.tsx";
+import {StationSearch} from "./components/common/StationSearch.tsx";
 
 ReactModal.setAppElement("#root")
 
@@ -23,6 +24,7 @@ function App() {
         mode: Mode.Browse,
         stations: [],
         lastMapClick: null,
+        stationSearch: "",
     })
     const [addStationDialog, setAddStationDialog] = useState(false)
 
@@ -60,7 +62,8 @@ function App() {
 
     useEffect(() => {
         if (map == null) {
-            return () => {}
+            return () => {
+            }
         }
         let cancelFence = false
         getStations(BBox.fromBounds(map?.getBounds()))
@@ -77,7 +80,8 @@ function App() {
     }, [map])
 
     useEffect(() => {
-        if (map == null) return () => {}
+        if (map == null) return () => {
+        }
         setAddStationDialog(false)
         map.on("moveend", handleMapMoveEnd)
         map.on("click", handleMapClick)
@@ -91,29 +95,43 @@ function App() {
         <AppContext.Provider value={state}>
             <AppDispatchContext.Provider value={dispatch}>
                 <MapContainer
-                    center={[49.7,15.8]}
+                    center={[49.7, 15.8]}
                     zoom={8}
                     ref={setMap}>
-                    <TileLayer attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-                               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                    <TileLayer
+                        attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
                     <div className="map-overlay wrapper-mode-switcher">
                         <ModeSwitcher/>
                     </div>
-                    <AddStationDialog open={addStationDialog} onClose={() => setAddStationDialog(false)} onAdd={handleStationCreate}/>
+                    <AddStationDialog open={addStationDialog} onClose={() => setAddStationDialog(false)}
+                                      onAdd={handleStationCreate}/>
                     {state.mode == Mode.Locate && <div className="map-overlay wrapper-chain-container">
                         <LocateView/>
                     </div>}
                     <div className="map-overlay App__CitySearch">
                         <CitySearch/>
                     </div>
+                    <div className="map-overlay App__StationSearch">
+                        <StationSearch/>
+                    </div>
                     <>
                         {state.stations.map(station => {
-                            switch(state.mode) {
-                                case Mode.Editor: return <EditableStationMarker key={station.stop_id} station={station}/>
-                                case Mode.Browse: return <StationMarker key={station.stop_id} station={station} popup/>
+                            switch (state.mode) {
+                                case Mode.Editor:
+                                    return <EditableStationMarker key={station.stop_id} station={station}/>
+                                case Mode.Browse:
+                                    return <StationMarker key={station.stop_id} station={station} popup/>
                             }
                         })}
                     </>
+                    <div className="map-overlay App_GetStats">
+                        <button onClick={async () => {
+                            const stats = await getStats()
+                            alert(JSON.stringify(stats, null, 2))
+                        }}>Get stats
+                        </button>
+                    </div>
                 </MapContainer>
             </AppDispatchContext.Provider>
         </AppContext.Provider>

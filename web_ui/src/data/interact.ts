@@ -1,4 +1,4 @@
-import {BaseCity, BaseStation, BBox, ChainStation, Station} from "../model/model.ts";
+import {BaseCity, BaseStation, BBox, ChainStation, Station, Stats} from "../model/model.ts";
 import {config} from "../config.ts";
 
 export async function getStations(bbox: BBox): Promise<Station[]> {
@@ -106,4 +106,19 @@ export async function searchBaseCity(query: string): Promise<BaseCity[]> {
     return await fetch(url)
         .then(response => response.ok ? response.json() : Promise.reject())
         .then(data => data as BaseCity[])
+}
+
+export async function searchStations(query: string): Promise<Station[]> {
+    const url = new URL(config.api_endpoint + "/el_stations_search");
+    url.searchParams.append("query", query)
+    return await fetch(url)
+        .then(response => response.ok ? response.json() : Promise.reject())
+        .then(data => data as Station[])
+}
+
+export async function getStats(): Promise<Stats> {
+    const url = new URL(config.api_endpoint + "/other_stats");
+    return await fetch(url)
+        .then(response => response.ok ? response.json() : Promise.reject())
+        .then(data => data as Stats)
 }

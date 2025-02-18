@@ -2,6 +2,7 @@ mod database;
 mod export;
 mod import;
 mod netex;
+mod stats;
 
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
@@ -30,6 +31,7 @@ enum Commands {
         #[arg(value_name = "OUTPUT GEOJSON FILE")]
         output_file: PathBuf,
     },
+    Stats {},
 }
 
 #[tokio::main]
@@ -55,6 +57,9 @@ async fn main() -> anyhow::Result<()> {
         }
         Commands::Export { output_file } => {
             App::export(&db_pool, output_file).await?;
+        }
+        Commands::Stats {} => {
+            App::print_stats(&db_pool).await?;
         }
     }
     Ok(())

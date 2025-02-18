@@ -1,0 +1,9 @@
+.StationSearch__wrapper {
+    background-color: aliceblue;
+    padding: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.StationSearch__button {
+    vertical-align: middle;
+}
