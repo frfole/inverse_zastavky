@@ -9,6 +9,8 @@ export enum ActionType {
     RemoveStation,
     MapClick,
     SearchStations,
+    SetLocateOffset,
+    SearchCity,
 }
 
 export interface ActionChangeMode {
@@ -41,6 +43,16 @@ export interface ActionSearchStations {
     query: string,
 }
 
+export interface ActionSetLocateOffset {
+    type: ActionType.SetLocateOffset,
+    newOffset: number,
+}
+
+export interface ActionSearchCity {
+    type: ActionType.SearchCity,
+    query: string,
+}
+
 export type ReducerAction =
     ActionChangeMode
     | ActionSetStations
@@ -48,6 +60,8 @@ export type ReducerAction =
     | ActionRemoveStation
     | ActionMapClick
     | ActionSearchStations
+    | ActionSetLocateOffset
+    | ActionSearchCity
 
 export function appReducer(state: AppState, action: ReducerAction): AppState {
     switch (action.type) {
@@ -97,6 +111,18 @@ export function appReducer(state: AppState, action: ReducerAction): AppState {
             return {
                 ...state,
                 stationSearch: action.query
+            }
+        }
+        case ActionType.SetLocateOffset: {
+            return {
+                ...state,
+                locateOffset: action.newOffset
+            }
+        }
+        case ActionType.SearchCity: {
+            return {
+                ...state,
+                citySearch: action.query
             }
         }
     }

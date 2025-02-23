@@ -5,5 +5,5 @@
 }
 
 .CitySearch__button {
-    vertical-align: middle;
+    display: block;
 }

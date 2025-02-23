@@ -25,6 +25,8 @@ function App() {
         stations: [],
         lastMapClick: null,
         stationSearch: "",
+        citySearch: "",
+        locateOffset: 0,
     })
     const [addStationDialog, setAddStationDialog] = useState(false)
 

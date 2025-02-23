@@ -1,12 +1,14 @@
 import "./CitySearch.css"
 import {useMap} from "react-leaflet";
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useContext, useEffect, useState} from "react";
 import {BaseCity} from "../../model/model.ts";
 import {searchBaseCity} from "../../data/interact.ts";
+import {AppContext} from "../../data/app-context.ts";
 
 export function CitySearch() {
     const map = useMap()
     const [cities, setCities] = useState<BaseCity[]>([])
+    const appState = useContext(AppContext)
 
     async function handleSearchChange(e: ChangeEvent<HTMLInputElement>) {
         const query = e.target.value;
@@ -17,22 +19,37 @@ export function CitySearch() {
         setCities(await searchBaseCity(query + "%"))
     }
 
+    useEffect(() => {
+        let cancelFence = false
+        const query = appState.citySearch
+        if (query.length == 0) {
+            setCities([])
+        } else {
+            searchBaseCity(query + "%")
+                .then(cities => {
+                    if (cancelFence) return
+                    setCities(cities.slice(0, 20))
+                })
+        }
+        return () => {
+            cancelFence = true
+        }
+    }, [appState.citySearch])
+
     return (
         <div className="CitySearch__wrapper">
             <input type="text" onChange={handleSearchChange}/>
             {cities.map(city => (
-                <>
-                    <br key={city.lat + city.lon + 1}/>
-                    <button key={city.lat + city.lon}
-                            className="CitySearch__button"
-                            onClick={() => {
-                                map.flyTo([city.lat, city.lon], 13, {
-                                    duration: 2
-                                })
-                            }}>
-                        {city.name}
-                    </button>
-                </>
+                <button
+                    key={city.lat + city.lon + city.name}
+                    className="CitySearch__button"
+                    onClick={() => {
+                        map.flyTo([city.lat, city.lon], 13, {
+                            duration: 2
+                        })
+                    }}>
+                    {city.name}
+                </button>
             ))}
         </div>
     )

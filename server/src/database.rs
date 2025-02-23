@@ -70,7 +70,7 @@ impl Station {
     ) -> Result<Option<Self>, sqlx::Error> {
         let rows: Vec<SqliteRow> = query(
             "SELECT stop_id, lat, lon, station_name FROM el_station_names
-    JOIN el_station_pos USING (stop_id) WHERE stop_id = $1 LIMIT 1;",
+    JOIN el_station_pos USING (stop_id) WHERE stop_id = $1 LIMIT 50;",
         )
         .bind(stop_id)
         .fetch_all(&mut **db)

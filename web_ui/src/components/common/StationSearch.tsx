@@ -40,18 +40,15 @@ export function StationSearch() {
         <div className="StationSearch__wrapper">
             <input type="text" onChange={handleSearchChange}/>
             {stations.map(station => (
-                <>
-                    <br key={station.lat + station.lon + 1}/>
-                    <button key={station.lat + station.lon}
-                            className="StationSearch__button"
-                            onClick={() => {
-                                map.flyTo([station.lat, station.lon], 15, {
-                                    duration: 1
-                                })
-                            }}>
-                        {station.names[0]}
-                    </button>
-                </>
+                <button key={station.lat + station.lon}
+                        className="StationSearch__button"
+                        onClick={() => {
+                            map.flyTo([station.lat, station.lon], 15, {
+                                duration: 1
+                            })
+                        }}>
+                    {station.names[0]}
+                </button>
             ))}
         </div>
     )

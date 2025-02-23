@@ -6,19 +6,45 @@ import {LocateActionType, locateReducer} from "../../data/locate-reducer.ts";
 import {Circle, Tooltip, useMap, useMapEvent} from "react-leaflet";
 import {StationMarker} from "../browse/StationMarker.tsx";
 import {ActionType} from "../../data/app-reducer.ts";
-import {BBox} from "../../model/model.ts";
+import {BaseStation, BBox, Station} from "../../model/model.ts";
+import {LocateState} from "../../data/locate-state.ts";
+
+function stationColor(target: Station, state: LocateState): string | undefined {
+    if (state.chainStations[state.selectedIdx] && target.names.includes(state.chainStations[state.selectedIdx].name)) {
+        return "#ff4d00"
+    } else if (state.chainStations[state.selectedIdx + 1] && target.names.includes(state.chainStations[state.selectedIdx + 1].name)) {
+        return "#ffdd00"
+    }
+}
+
+function baseStationColor(target: BaseStation, state: LocateState): string | undefined {
+    if (state.chainStations[state.selectedIdx] && target.name.indexOf(state.chainStations[state.selectedIdx].name) >= 0) {
+        return "#ff4d00"
+    } else if (state.chainStations[state.selectedIdx + 1] && target.name.indexOf(state.chainStations[state.selectedIdx + 1].name) >= 0) {
+        return "#ffdd00"
+    } else {
+        return "#008cff"
+    }
+}
 
 export function LocateView() {
     const appState = useContext(AppContext)
     const appDispatch = useContext(AppDispatchContext)
     const [state, dispatch] = useReducer(locateReducer, {
-        offset: 0,
+        offset: appState.locateOffset,
         limit: 20,
         selectedIdx: 0,
         chainStations: [],
         baseStations: [],
     })
     const inputOffset = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        dispatch({
+            type: LocateActionType.SetOffset,
+            offset: appState.locateOffset,
+        })
+    }, []);
 
     useEffect(() => {
         let cancelFence = false
@@ -33,12 +59,20 @@ export function LocateView() {
                     type: ActionType.SearchStations,
                     query: chainStations[state.selectedIdx].name
                 })
+                appDispatch({
+                    type: ActionType.SearchCity,
+                    query: chainStations[state.selectedIdx].name.split(",", 1)[0]
+                })
             })
         if (inputOffset.current) inputOffset.current.value = String(state.offset + state.selectedIdx)
+        appDispatch({
+            type: ActionType.SetLocateOffset,
+            newOffset: state.offset + state.selectedIdx
+        })
         return () => {
             cancelFence = true
         }
-    }, [state.offset, state.limit, state.selectedIdx]);
+    }, [state.offset, state.limit, state.selectedIdx, appDispatch]);
 
     const handleListingChange = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -123,24 +157,31 @@ export function LocateView() {
                 <button onClick={handleAdvance}>next</button>
             </div>
             <>
-                {map.getZoom() > 14 && state.baseStations.map((base, idx) => {
-                    return <Circle key={idx} center={[base.lat, base.lon]} radius={5} interactive={false}>
+                {map.getZoom() > 14 && state.baseStations.map(base => {
+                    return <Circle
+                        key={base.lat * base.lon} center={[base.lat, base.lon]} radius={5}
+                        interactive={false}
+                        color={baseStationColor(base, state)}>
                         <Tooltip permanent={true} opacity={0.5}>{base.name}</Tooltip>
                     </Circle>
                 })}
             </>
             <>
                 {map.getZoom() > 11 && appState.stations.map(station => {
-                    return <StationMarker key={station.stop_id} station={station} onClick={async () => {
-                        const new_station = await locateById(state.chainStations[state.selectedIdx], station);
-                        appDispatch({
-                            type: ActionType.UpdateStation,
-                            station: new_station
-                        })
-                        dispatch({
-                            type: LocateActionType.Advance
-                        })
-                    }}/>
+                    return <StationMarker
+                        key={station.stop_id}
+                        station={station}
+                        color={stationColor(station, state)}
+                        onClick={async () => {
+                            const new_station = await locateById(state.chainStations[state.selectedIdx], station);
+                            appDispatch({
+                                type: ActionType.UpdateStation,
+                                station: new_station
+                            })
+                            dispatch({
+                                type: LocateActionType.Advance
+                            })
+                        }}/>
                 })}
             </>
         </>

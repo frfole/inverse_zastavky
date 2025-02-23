@@ -33,7 +33,12 @@ export interface ActionAdvance {
     type: LocateActionType.Advance,
 }
 
-export type LocateAction = ActionSetChainStations | ActionSetBaseStations | ActionSetOffset | ActionSetSelectedIdx | ActionAdvance
+export type LocateAction =
+    ActionSetChainStations
+    | ActionSetBaseStations
+    | ActionSetOffset
+    | ActionSetSelectedIdx
+    | ActionAdvance
 
 export function locateReducer(state: LocateState, action: LocateAction): LocateState {
     switch (action.type) {
@@ -47,11 +52,15 @@ export function locateReducer(state: LocateState, action: LocateAction): LocateS
                 ...state,
                 baseStations: action.newStations
             }
-        case LocateActionType.SetOffset:
+        case LocateActionType.SetOffset: {
+            const actualOffset = Math.max(0, action.offset - state.limit * 0.2)
+            const idx = action.offset - actualOffset
             return {
                 ...state,
-                offset: action.offset
+                offset: actualOffset,
+                selectedIdx: idx,
             }
+        }
         case LocateActionType.SetSelectedIdx:
             return {
                 ...state,
