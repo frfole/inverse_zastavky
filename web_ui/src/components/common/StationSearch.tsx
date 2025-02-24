@@ -4,6 +4,7 @@ import {ChangeEvent, useContext, useEffect, useState} from "react";
 import {Station} from "../../model/model.ts";
 import {searchStations} from "../../data/interact.ts";
 import {AppContext} from "../../data/app-context.ts";
+import {approx_distance} from "../../utils/geo.ts";
 
 export function StationSearch() {
     const map = useMap()
@@ -39,17 +40,24 @@ export function StationSearch() {
     return (
         <div className="StationSearch__wrapper">
             <input type="text" onChange={handleSearchChange}/>
-            {stations.map(station => (
-                <button key={station.lat + station.lon}
-                        className="StationSearch__button"
-                        onClick={() => {
-                            map.flyTo([station.lat, station.lon], 15, {
-                                duration: 1
-                            })
-                        }}>
-                    {station.names[0]}
-                </button>
-            ))}
+            {stations
+                .map(station => [station, approx_distance([station.lat, station.lon], [map.getCenter().lat, map.getCenter().lng])])
+                .sort(([, aDist], [, bDist]) => aDist as number - (bDist as number))
+                .map((pair) => {
+                    const station = pair[0] as Station
+                    const dist = pair[1] as number
+                    return (
+                        <button key={station.lat + station.lon}
+                                className="StationSearch__button"
+                                onClick={() => {
+                                    map.flyTo([station.lat, station.lon], 15, {
+                                        duration: 1
+                                    })
+                                }}>
+                            {station.names[0] + " (" + dist.toFixed(1) + " km)"}
+                        </button>
+                    )
+                })}
         </div>
     )
 }

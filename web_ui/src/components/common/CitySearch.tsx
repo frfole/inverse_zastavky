@@ -4,6 +4,7 @@ import {ChangeEvent, useContext, useEffect, useState} from "react";
 import {BaseCity} from "../../model/model.ts";
 import {searchBaseCity} from "../../data/interact.ts";
 import {AppContext} from "../../data/app-context.ts";
+import {approx_distance} from "../../utils/geo.ts";
 
 export function CitySearch() {
     const map = useMap()
@@ -39,18 +40,25 @@ export function CitySearch() {
     return (
         <div className="CitySearch__wrapper">
             <input type="text" onChange={handleSearchChange}/>
-            {cities.map(city => (
-                <button
-                    key={city.lat + city.lon + city.name}
-                    className="CitySearch__button"
-                    onClick={() => {
-                        map.flyTo([city.lat, city.lon], 13, {
-                            duration: 2
-                        })
-                    }}>
-                    {city.name}
-                </button>
-            ))}
+            {cities
+                .map(city => [city, approx_distance([city.lat, city.lon], [map.getCenter().lat, map.getCenter().lng])])
+                .sort(([, aDist], [, bDist]) => aDist as number - (bDist as number))
+                .map(pair => {
+                    const city = pair[0] as BaseCity
+                    const dist = pair[1] as number
+                    return (
+                        <button
+                            key={city.lat + city.lon + city.name}
+                            className="CitySearch__button"
+                            onClick={() => {
+                                map.flyTo([city.lat, city.lon], 13, {
+                                    duration: 2
+                                })
+                            }}>
+                            {city.name + " (" + dist.toFixed(1) + " km)"}
+                        </button>
+                    )
+                })}
         </div>
     )
 }
