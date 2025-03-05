@@ -43,11 +43,11 @@ export function StationSearch() {
             {stations
                 .map(station => [station, approx_distance([station.lat, station.lon], [map.getCenter().lat, map.getCenter().lng])])
                 .sort(([, aDist], [, bDist]) => aDist as number - (bDist as number))
-                .map((pair) => {
+                .map((pair, idx) => {
                     const station = pair[0] as Station
                     const dist = pair[1] as number
                     return (
-                        <button key={station.lat + station.lon}
+                        <button key={station.stop_id + "" + station.lat + station.lon + "" + idx}
                                 className="StationSearch__button"
                                 onClick={() => {
                                     map.flyTo([station.lat, station.lon], 15, {

@@ -61,7 +61,7 @@ export function LocateView() {
                 })
                 appDispatch({
                     type: ActionType.SearchCity,
-                    query: chainStations[state.selectedIdx].name.split(",", 1)[0]
+                    query: chainStations[state.selectedIdx].name.split(",", 1)[0].split(" [")[0]
                 })
             })
         if (inputOffset.current) inputOffset.current.value = String(state.offset + state.selectedIdx)
@@ -159,7 +159,7 @@ export function LocateView() {
             <>
                 {map.getZoom() > 14 && state.baseStations.map(base => {
                     return <Circle
-                        key={base.lat * base.lon} center={[base.lat, base.lon]} radius={5}
+                        key={base.lat * base.lon + base.name} center={[base.lat, base.lon]} radius={5}
                         interactive={false}
                         color={baseStationColor(base, state)}>
                         <Tooltip permanent={true} opacity={0.5}>{base.name}</Tooltip>

@@ -5,13 +5,14 @@ mod netex;
 mod stats;
 
 use clap::{Parser, Subcommand};
+use inv_zastavky_core::suggest::chain::{chain_options, path_options};
 use std::path::PathBuf;
 
 struct App;
 
 #[derive(Parser)]
 struct Cli {
-    #[arg(short, long, value_name = "URL")]
+    #[arg(value_name = "URL", help = "SQLite file path")]
     db_url: String,
     #[command(subcommand)]
     command: Commands,
@@ -20,18 +21,37 @@ struct Cli {
 #[derive(Subcommand)]
 enum Commands {
     Import {
-        #[arg(long, value_name = "NETEX FILE")]
+        #[arg(
+            long,
+            value_name = "NETEX FILE",
+            help = "Path pointing to ZIP of Netex files"
+        )]
         netex_path: Option<PathBuf>,
-        #[arg(long, value_name = "GEOJSON FILE")]
+        #[arg(
+            long,
+            value_name = "GEOJSON FILE",
+            help = "Path pointing to GeoJSON encoded list of base stations"
+        )]
         base_stations: Option<PathBuf>,
-        #[arg(long, value_name = "GEOJSON FILE")]
+        #[arg(
+            long,
+            value_name = "GEOJSON FILE",
+            help = "Path pointing to GeoJSON encoded list of cities"
+        )]
         base_cities: Option<PathBuf>,
     },
     Export {
-        #[arg(value_name = "OUTPUT GEOJSON FILE")]
+        #[arg(
+            value_name = "OUTPUT GEOJSON FILE",
+            help = "GeoJSON encoded list of stations"
+        )]
         output_file: PathBuf,
     },
     Stats {},
+    Dev {
+        #[arg()]
+        chain_hash: String,
+    },
 }
 
 #[tokio::main]
@@ -60,6 +80,16 @@ async fn main() -> anyhow::Result<()> {
         }
         Commands::Stats {} => {
             App::print_stats(&db_pool).await?;
+        }
+        Commands::Dev { chain_hash } => {
+            for suggestion in path_options(&mut db_pool.acquire().await?, &chain_hash).await? {
+                println!("cities: {:?}", suggestion)
+            }
+            for suggestion in
+                chain_options(&mut db_pool.acquire().await?, &chain_hash, true).await?
+            {
+                println!("stations: {:?}", suggestion)
+            }
         }
     }
     Ok(())

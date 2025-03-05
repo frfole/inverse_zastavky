@@ -1,0 +1,9 @@
+[package]
+name = "inv_zastavky_core"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.95"
+sqlx = { version = "0.7.4", features = ["sqlite"] }
+serde = { version = "1.0.217", features = ["derive"] }

@@ -1,5 +1,5 @@
 use crate::database::MainDB;
-use crate::model::Stats;
+use inv_zastavky_core::model::stats::Stats;
 use rocket::get;
 use rocket::serde::json::Json;
 use rocket_db_pools::Connection;

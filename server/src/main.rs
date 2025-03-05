@@ -10,7 +10,6 @@ mod api_chain;
 mod api_other;
 mod api_stations;
 mod database;
-mod model;
 
 #[launch]
 fn rocket() -> _ {

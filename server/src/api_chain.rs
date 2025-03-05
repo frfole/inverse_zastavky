@@ -1,6 +1,8 @@
 use crate::database;
 use crate::database::MainDB;
-use crate::model::{ChainStation, Station, StopId};
+use inv_zastavky_core::model::chain_station::ChainStation;
+use inv_zastavky_core::model::station::Station;
+use inv_zastavky_core::model::StopId;
 use rocket::serde::json::Json;
 use rocket::{get, FromForm};
 use rocket_db_pools::Connection;

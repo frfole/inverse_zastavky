@@ -1,5 +1,7 @@
 use crate::database::MainDB;
-use crate::model::{BBox, BaseCity, BaseStation};
+use inv_zastavky_core::model::base_city::BaseCity;
+use inv_zastavky_core::model::base_station::BaseStation;
+use inv_zastavky_core::model::bbox::BBox;
 use rocket::serde::json::Json;
 use rocket::{get, FromForm};
 use rocket_db_pools::Connection;

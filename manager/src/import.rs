@@ -57,7 +57,7 @@ impl App {
             });
             builder.build().execute(db_pool).await?;
         }
-        return Ok(());
+        Ok(())
     }
 
     pub async fn import_base_stations(

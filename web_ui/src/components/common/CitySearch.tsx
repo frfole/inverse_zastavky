@@ -43,16 +43,16 @@ export function CitySearch() {
             {cities
                 .map(city => [city, approx_distance([city.lat, city.lon], [map.getCenter().lat, map.getCenter().lng])])
                 .sort(([, aDist], [, bDist]) => aDist as number - (bDist as number))
-                .map(pair => {
+                .map((pair, idx) => {
                     const city = pair[0] as BaseCity
                     const dist = pair[1] as number
                     return (
                         <button
-                            key={city.lat + city.lon + city.name}
+                            key={city.lat + city.lon + city.name + dist + idx}
                             className="CitySearch__button"
                             onClick={() => {
                                 map.flyTo([city.lat, city.lon], 13, {
-                                    duration: 2
+                                    duration: 1
                                 })
                             }}>
                             {city.name + " (" + dist.toFixed(1) + " km)"}
