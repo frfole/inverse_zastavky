@@ -1,4 +1,4 @@
-import {BaseCity, BaseStation, BBox, ChainStation, Station, Stats} from "../model/model.ts";
+import {BaseCity, BaseStation, BBox, ChainStation, ChainStationsSuggestion, Station, Stats} from "../model/model.ts";
 import {config} from "../config.ts";
 
 export async function getStations(bbox: BBox): Promise<Station[]> {
@@ -66,6 +66,14 @@ export async function getChainStations(offset: number, limit: number): Promise<C
     return data as ChainStation[];
 }
 
+export async function getChainStationsByHash(chain_hash: string): Promise<ChainStation[]> {
+    const url = new URL(config.api_endpoint + "/sl_chain");
+    url.searchParams.append("chain_hash", chain_hash)
+    const response = await fetch(url);
+    const data = await (response.ok ? response.json() : Promise.reject());
+    return data as ChainStation[];
+}
+
 export async function locateByLoc(chainStation: ChainStation, lat: number, lon: number): Promise<Station> {
     const url = new URL(config.api_endpoint + "/locate_by_loc");
     url.searchParams.append("chain_hash", String(chainStation.chain_hash))
@@ -78,12 +86,12 @@ export async function locateByLoc(chainStation: ChainStation, lat: number, lon: 
     return data as Station;
 }
 
-export async function locateById(chainStation: ChainStation, station: Station): Promise<Station> {
+export async function locateById(chainStation: ChainStation, stop_id: number): Promise<Station> {
     const url = new URL(config.api_endpoint + "/locate_by_id");
     url.searchParams.append("chain_hash", String(chainStation.chain_hash))
     url.searchParams.append("name", String(chainStation.name))
     url.searchParams.append("pos", String(chainStation.pos))
-    url.searchParams.append("stop_id", String(station.stop_id))
+    url.searchParams.append("stop_id", String(stop_id))
     const response = await fetch(url);
     const data = await (response.ok ? response.json() : Promise.reject());
     return data as Station;
@@ -121,4 +129,12 @@ export async function getStats(): Promise<Stats> {
     return await fetch(url)
         .then(response => response.ok ? response.json() : Promise.reject())
         .then(data => data as Stats)
+}
+
+export async function suggestChainStations(chain_hash: string): Promise<ChainStationsSuggestion[]> {
+    const url = new URL(config.api_endpoint + "/suggest_stations");
+    url.searchParams.append("chain_hash", chain_hash)
+    return await fetch(url)
+        .then(response => response.ok ? response.json() : Promise.reject())
+        .then(data => data as ChainStationsSuggestion[])
 }

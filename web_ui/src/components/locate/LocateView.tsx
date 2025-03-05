@@ -1,12 +1,19 @@
 import "./LocateView.css"
 import {FormEvent, useCallback, useContext, useEffect, useReducer, useRef} from "react";
 import {AppContext, AppDispatchContext} from "../../data/app-context.ts";
-import {getBaseStations, getChainStations, locateById, locateByLoc} from "../../data/interact.ts";
+import {
+    getBaseStations,
+    getChainStations,
+    getChainStationsByHash,
+    locateById,
+    locateByLoc,
+    suggestChainStations
+} from "../../data/interact.ts";
 import {LocateActionType, locateReducer} from "../../data/locate-reducer.ts";
-import {Circle, Tooltip, useMap, useMapEvent} from "react-leaflet";
+import {Circle, Polyline, Tooltip, useMap, useMapEvent} from "react-leaflet";
 import {StationMarker} from "../browse/StationMarker.tsx";
 import {ActionType} from "../../data/app-reducer.ts";
-import {BaseStation, BBox, Station} from "../../model/model.ts";
+import {BaseStation, BBox, ChainStationsSuggestion, Station} from "../../model/model.ts";
 import {LocateState} from "../../data/locate-state.ts";
 
 function stationColor(target: Station, state: LocateState): string | undefined {
@@ -36,6 +43,8 @@ export function LocateView() {
         selectedIdx: 0,
         chainStations: [],
         baseStations: [],
+        stationsSuggestions: [],
+        reload: false,
     })
     const inputOffset = useRef<HTMLInputElement>(null)
 
@@ -63,6 +72,13 @@ export function LocateView() {
                     type: ActionType.SearchCity,
                     query: chainStations[state.selectedIdx].name.split(",", 1)[0].split(" [")[0]
                 })
+                suggestChainStations(chainStations[state.selectedIdx].chain_hash)
+                    .then(suggestion => {
+                        dispatch({
+                            type: LocateActionType.SetStationsSuggestions,
+                            newSuggestions: suggestion,
+                        })
+                    })
             })
         if (inputOffset.current) inputOffset.current.value = String(state.offset + state.selectedIdx)
         appDispatch({
@@ -72,7 +88,7 @@ export function LocateView() {
         return () => {
             cancelFence = true
         }
-    }, [state.offset, state.limit, state.selectedIdx, appDispatch]);
+    }, [state.offset, state.limit, state.selectedIdx, appDispatch, state.reload]);
 
     const handleListingChange = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -121,9 +137,23 @@ export function LocateView() {
         })
     })
 
+    async function acceptStationsSuggestion(suggestion: ChainStationsSuggestion) {
+        const stops = suggestion.path.map(a => a == null ? null : a[2])
+        const chainStations = await getChainStationsByHash(state.chainStations[state.selectedIdx].chain_hash)
+        for (let i = 0; i < stops.length; i++) {
+            const stop = stops[i];
+            if (stop == null) continue
+            console.log(chainStations[i], stop)
+            await locateById(chainStations[i], stop)
+        }
+        dispatch({
+            type: LocateActionType.Reload,
+        })
+    }
+
     return (
         <>
-            <div className="ChainContainer__wrapper">
+            <div className="ChainContainer__wrapper map-overlay">
                 <table>
                     <thead>
                     <tr>
@@ -154,7 +184,45 @@ export function LocateView() {
                     <input type="number" name="offset" ref={inputOffset} placeholder="offset"/>
                     <input type="submit" value="Go"/>
                 </form>
+                <button onClick={() => dispatch({
+                    type: LocateActionType.SetOffset,
+                    offset: state.offset + state.selectedIdx - 10
+                })}>prev 10
+                </button>
                 <button onClick={handleAdvance}>next</button>
+                <button onClick={() => dispatch({
+                    type: LocateActionType.SetOffset,
+                    offset: state.offset + state.selectedIdx + 10
+                })}>next 10
+                </button>
+                <button onClick={() => dispatch({
+                    type: LocateActionType.SetOffset,
+                    offset: state.offset + state.selectedIdx + 20
+                })}>next 20
+                </button>
+            </div>
+            <div className="StationsSuggestion__wrapper map-overlay">
+                {state.stationsSuggestions.sort((left, right) => left.len - right.len)
+                    .map(suggestion => (
+                        <button key={suggestion.len}
+                                onPointerLeave={() => {
+                                    dispatch({
+                                        type: LocateActionType.SetSuggestionPreview,
+                                        path: undefined
+                                    })
+                                }}
+                                onPointerEnter={() => {
+                                    dispatch({
+                                        type: LocateActionType.SetSuggestionPreview,
+                                        path: suggestion.path.filter(a => a != null)
+                                            .map(a => [a[0], a[1]])
+                                    })
+                                }}
+                                onClick={async () => acceptStationsSuggestion(suggestion)}
+                        >
+                            {suggestion.len.toFixed(2) + " km"}
+                        </button>
+                    ))}
             </div>
             <>
                 {map.getZoom() > 14 && state.baseStations.map(base => {
@@ -173,7 +241,7 @@ export function LocateView() {
                         station={station}
                         color={stationColor(station, state)}
                         onClick={async () => {
-                            const new_station = await locateById(state.chainStations[state.selectedIdx], station);
+                            const new_station = await locateById(state.chainStations[state.selectedIdx], station.stop_id);
                             appDispatch({
                                 type: ActionType.UpdateStation,
                                 station: new_station
@@ -183,6 +251,9 @@ export function LocateView() {
                             })
                         }}/>
                 })}
+            </>
+            <>
+                {state.suggestionPreview && <Polyline color="red" positions={state.suggestionPreview}></Polyline>}
             </>
         </>
     )

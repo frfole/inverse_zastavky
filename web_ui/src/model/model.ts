@@ -59,3 +59,8 @@ export interface Stats {
     pos_count: number,
     names_count: number,
 }
+
+export interface ChainStationsSuggestion {
+    len: number,
+    path: number[][]
+}

@@ -2,13 +2,14 @@ use crate::database::MainDB;
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::fs::FileServer;
 use rocket::http::Header;
-use rocket::{launch, routes, Request, Response};
+use rocket::{Request, Response, launch, routes};
 use rocket_db_pools::Database;
 
 mod api_base;
 mod api_chain;
 mod api_other;
 mod api_stations;
+mod api_suggest;
 mod database;
 
 #[launch]
@@ -20,6 +21,7 @@ fn rocket() -> _ {
             "/api",
             routes![
                 api_chain::list_sl_chains,
+                api_chain::sl_chain_by_chain_hash,
                 api_chain::locate_by_id,
                 api_chain::locate_by_loc,
                 api_base::get_base_stations_by_bbox,
@@ -32,6 +34,7 @@ fn rocket() -> _ {
                 api_stations::move_station,
                 api_stations::search_stations,
                 api_other::other_stats,
+                api_suggest::suggest_stations,
             ],
         )
         .mount("/", FileServer::from("web_ui/dist"))

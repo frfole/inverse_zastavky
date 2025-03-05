@@ -1,4 +1,5 @@
-import {BaseStation, ChainStation} from "../model/model.ts";
+import {BaseStation, ChainStation, ChainStationsSuggestion} from "../model/model.ts";
+import {LatLngExpression} from "leaflet";
 
 export interface LocateState {
     offset: number,
@@ -6,4 +7,7 @@ export interface LocateState {
     selectedIdx: number,
     chainStations: ChainStation[],
     baseStations: BaseStation[],
+    stationsSuggestions: ChainStationsSuggestion[],
+    suggestionPreview?: LatLngExpression[],
+    reload: boolean
 }

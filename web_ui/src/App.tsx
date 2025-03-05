@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useReducer, useState} from "react"
 import "./App.css"
 import {MapContainer, TileLayer} from "react-leaflet";
-import ModeSwitcher from "./components/ModeSwitcher/ModeSwitcher.tsx";
 import {BBox, Mode} from "./model/model.ts";
 import {MapRef} from "react-leaflet/MapContainer";
 import {createStation, getStations, getStats} from "./data/interact.ts";
@@ -15,6 +14,7 @@ import {AppContext, AppDispatchContext} from "./data/app-context.ts";
 import {LocateView} from "./components/locate/LocateView.tsx";
 import {CitySearch} from "./components/common/CitySearch.tsx";
 import {StationSearch} from "./components/common/StationSearch.tsx";
+import ModeSwitcher from "./components/common/ModeSwitcher.tsx";
 
 ReactModal.setAppElement("#root")
 
@@ -108,9 +108,7 @@ function App() {
                     </div>
                     <AddStationDialog open={addStationDialog} onClose={() => setAddStationDialog(false)}
                                       onAdd={handleStationCreate}/>
-                    {state.mode == Mode.Locate && <div className="map-overlay wrapper-chain-container">
-                        <LocateView/>
-                    </div>}
+                    {state.mode == Mode.Locate && <LocateView/>}
                     <div className="map-overlay App__CitySearch">
                         <CitySearch/>
                     </div>

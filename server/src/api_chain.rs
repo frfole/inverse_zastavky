@@ -1,10 +1,10 @@
 use crate::database;
 use crate::database::MainDB;
+use inv_zastavky_core::model::StopId;
 use inv_zastavky_core::model::chain_station::ChainStation;
 use inv_zastavky_core::model::station::Station;
-use inv_zastavky_core::model::StopId;
 use rocket::serde::json::Json;
-use rocket::{get, FromForm};
+use rocket::{FromForm, get};
 use rocket_db_pools::Connection;
 
 #[derive(FromForm)]
@@ -48,6 +48,18 @@ pub async fn list_sl_chains(
     let limit = params.limit();
     let offset = params.page();
     let chains = ChainStation::get_chains(&mut db, limit, offset).await;
+    match chains {
+        Ok(chains) => Ok(Json(chains)),
+        Err(err) => Err(format!("{}", err)),
+    }
+}
+
+#[get("/sl_chain?<chain_hash>")]
+pub async fn sl_chain_by_chain_hash(
+    mut db: Connection<MainDB>,
+    chain_hash: String,
+) -> Result<Json<Vec<ChainStation>>, String> {
+    let chains = ChainStation::get_by_chain_hash(&mut db, &chain_hash).await;
     match chains {
         Ok(chains) => Ok(Json(chains)),
         Err(err) => Err(format!("{}", err)),

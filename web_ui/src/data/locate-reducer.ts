@@ -1,5 +1,6 @@
 import {LocateState} from "./locate-state.ts";
-import {BaseStation, ChainStation} from "../model/model.ts";
+import {BaseStation, ChainStation, ChainStationsSuggestion} from "../model/model.ts";
+import {LatLngExpression} from "leaflet";
 
 export enum LocateActionType {
     SetChainStations,
@@ -7,6 +8,9 @@ export enum LocateActionType {
     SetOffset,
     SetSelectedIdx,
     Advance,
+    SetStationsSuggestions,
+    SetSuggestionPreview,
+    Reload,
 }
 
 export interface ActionSetChainStations {
@@ -33,12 +37,29 @@ export interface ActionAdvance {
     type: LocateActionType.Advance,
 }
 
+export interface ActionSetStationsSuggestions {
+    type: LocateActionType.SetStationsSuggestions,
+    newSuggestions: ChainStationsSuggestion[],
+}
+
+export interface ActionSetSuggestionPreview {
+    type: LocateActionType.SetSuggestionPreview,
+    path?: LatLngExpression[],
+}
+
+export interface ActionReload {
+    type: LocateActionType.Reload,
+}
+
 export type LocateAction =
     ActionSetChainStations
     | ActionSetBaseStations
     | ActionSetOffset
     | ActionSetSelectedIdx
     | ActionAdvance
+    | ActionSetStationsSuggestions
+    | ActionSetSuggestionPreview
+    | ActionReload
 
 export function locateReducer(state: LocateState, action: LocateAction): LocateState {
     switch (action.type) {
@@ -85,6 +106,21 @@ export function locateReducer(state: LocateState, action: LocateAction): LocateS
                     selectedIdx: state.selectedIdx,
                     offset: state.offset + 1
                 }
+            }
+        case LocateActionType.SetStationsSuggestions:
+            return {
+                ...state,
+                stationsSuggestions: action.newSuggestions,
+            }
+        case LocateActionType.SetSuggestionPreview:
+            return {
+                ...state,
+                suggestionPreview: action.path,
+            }
+        case LocateActionType.Reload:
+            return {
+                ...state,
+                reload: !state.reload
             }
     }
 }

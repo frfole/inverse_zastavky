@@ -11,7 +11,7 @@ use std::collections::HashMap;
 #[derive(Debug, Serialize)]
 pub struct ChainStationsSuggestion {
     len: f64,
-    path: Vec<(f64, f64, StopId)>,
+    path: Vec<Option<(f64, f64, StopId)>>,
 }
 
 #[derive(Debug, Serialize)]
@@ -98,7 +98,6 @@ pub async fn path_options(
 pub async fn chain_options(
     db_pool: &mut PoolConnection<Sqlite>,
     chain_hash: &str,
-    full: bool,
 ) -> anyhow::Result<Vec<ChainStationsSuggestion>> {
     let station_chain = ChainStation::get_by_chain_hash(db_pool, chain_hash).await?;
 
@@ -111,46 +110,53 @@ pub async fn chain_options(
         );
     }
 
-    let mut paths: Vec<Vec<(f64, f64, StopId)>> = Vec::new();
+    let mut paths: Vec<Vec<Option<(f64, f64, StopId)>>>;
     // try to get first city
     if let Some(possible_stations) = stations.get(station_chain[0].name()) {
-        if possible_stations.is_empty() && full {
-            return Err(anyhow::anyhow!("Suggestion must be full"));
-        }
         let mut new_paths = Vec::new();
         for station in possible_stations {
             let mut new_path = Vec::new();
-            new_path.push((station.lat(), station.lon(), station.stop_id()));
+            new_path.push(Some((station.lat(), station.lon(), station.stop_id())));
+            new_paths.push(new_path);
+        }
+        if possible_stations.is_empty() {
+            let mut new_path = Vec::new();
+            new_path.push(None);
             new_paths.push(new_path);
         }
         paths = new_paths;
+    } else {
+        let mut new_paths = Vec::new();
+        let mut new_path = Vec::new();
+        new_path.push(None);
+        new_paths.push(new_path);
+        paths = new_paths;
     }
 
+    // TODO: replace with iterator
     for window in station_chain.windows(2) {
-        let prev = window[0].name();
         let cur = window[1].name();
-        if prev == cur {
-            continue;
-        }
         if let Some(possible_stations) = stations.get(cur) {
-            if possible_stations.is_empty() && full {
-                return Err(anyhow::anyhow!("Suggestion must be full"));
-            }
             let mut new_paths = Vec::new();
-            if paths.is_empty() {
+            for path in paths {
                 for station in possible_stations {
-                    let mut new_path = Vec::new();
-                    new_path.push((station.lat(), station.lon(), station.stop_id()));
+                    let mut new_path = path.clone();
+                    new_path.push(Some((station.lat(), station.lon(), station.stop_id())));
                     new_paths.push(new_path);
                 }
-            } else {
-                for path in paths {
-                    for station in possible_stations {
-                        let mut new_path = path.clone();
-                        new_path.push((station.lat(), station.lon(), station.stop_id()));
-                        new_paths.push(new_path);
-                    }
+                if possible_stations.is_empty() {
+                    let mut new_path = path.clone();
+                    new_path.push(None);
+                    new_paths.push(new_path);
                 }
+            }
+            paths = new_paths;
+        } else {
+            let mut new_paths = Vec::new();
+            for path in paths {
+                let mut new_path = path.clone();
+                new_path.push(None);
+                new_paths.push(new_path);
             }
             paths = new_paths;
         }
@@ -159,7 +165,13 @@ pub async fn chain_options(
     let paths = paths
         .iter()
         .map(|path| ChainStationsSuggestion {
-            len: approx_len(&path.iter().map(|(lat, lon, _)| (*lat, *lon)).collect()),
+            len: approx_len(
+                &path
+                    .iter()
+                    .filter_map(|a| *a)
+                    .map(|(lat, lon, _)| (lat, lon))
+                    .collect(),
+            ),
             path: path.to_owned(),
         })
         .collect::<Vec<_>>();

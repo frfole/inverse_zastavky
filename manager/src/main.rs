@@ -85,9 +85,7 @@ async fn main() -> anyhow::Result<()> {
             for suggestion in path_options(&mut db_pool.acquire().await?, &chain_hash).await? {
                 println!("cities: {:?}", suggestion)
             }
-            for suggestion in
-                chain_options(&mut db_pool.acquire().await?, &chain_hash, true).await?
-            {
+            for suggestion in chain_options(&mut db_pool.acquire().await?, &chain_hash).await? {
                 println!("stations: {:?}", suggestion)
             }
         }
