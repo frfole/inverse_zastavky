@@ -1,4 +1,4 @@
-import {Mode, Station} from "../model/model.ts";
+import {CityRemap, Mode, Station} from "../model/model.ts";
 import {AppState} from "./app-state.ts";
 import {LatLng} from "leaflet";
 
@@ -11,6 +11,7 @@ export enum ActionType {
     SearchStations,
     SetLocateOffset,
     SearchCity,
+    SetCityRemap,
 }
 
 export interface ActionChangeMode {
@@ -53,6 +54,11 @@ export interface ActionSearchCity {
     query: string,
 }
 
+export interface ActionSetCityRemap {
+    type: ActionType.SetCityRemap,
+    remap: CityRemap,
+}
+
 export type ReducerAction =
     ActionChangeMode
     | ActionSetStations
@@ -62,6 +68,7 @@ export type ReducerAction =
     | ActionSearchStations
     | ActionSetLocateOffset
     | ActionSearchCity
+    | ActionSetCityRemap
 
 export function appReducer(state: AppState, action: ReducerAction): AppState {
     switch (action.type) {
@@ -123,6 +130,12 @@ export function appReducer(state: AppState, action: ReducerAction): AppState {
             return {
                 ...state,
                 citySearch: action.query
+            }
+        }
+        case ActionType.SetCityRemap: {
+            return {
+                ...state,
+                cityRemap: action.remap
             }
         }
     }

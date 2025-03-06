@@ -6,7 +6,7 @@ import {
     getChainStations,
     getChainStationsByHash,
     locateById,
-    locateByLoc,
+    locateByLoc, suggestChainCities,
     suggestChainStations
 } from "../../data/interact.ts";
 import {LocateActionType, locateReducer} from "../../data/locate-reducer.ts";
@@ -15,12 +15,15 @@ import {StationMarker} from "../browse/StationMarker.tsx";
 import {ActionType} from "../../data/app-reducer.ts";
 import {BaseStation, BBox, ChainStationsSuggestion, Station} from "../../model/model.ts";
 import {LocateState} from "../../data/locate-state.ts";
+import {LatLngBounds, LatLngExpression} from "leaflet";
 
 function stationColor(target: Station, state: LocateState): string | undefined {
     if (state.chainStations[state.selectedIdx] && target.names.includes(state.chainStations[state.selectedIdx].name)) {
         return "#ff4d00"
     } else if (state.chainStations[state.selectedIdx + 1] && target.names.includes(state.chainStations[state.selectedIdx + 1].name)) {
         return "#ffdd00"
+    } else if (state.selectedIdx - 1 >= 0 && state.chainStations[state.selectedIdx - 1] && target.names.includes(state.chainStations[state.selectedIdx - 1].name)) {
+        return "#00e1ff"
     }
 }
 
@@ -44,6 +47,7 @@ export function LocateView() {
         chainStations: [],
         baseStations: [],
         stationsSuggestions: [],
+        citiesSuggestions: [],
         reload: false,
     })
     const inputOffset = useRef<HTMLInputElement>(null)
@@ -60,6 +64,11 @@ export function LocateView() {
         getChainStations(state.offset, state.limit)
             .then(chainStations => {
                 if (cancelFence) return;
+                let cityQuery = chainStations[state.selectedIdx].name.split(",", 1)[0].split(" [")[0];
+                if (cityQuery in appState.cityRemap) {
+                    console.log("City")
+                    cityQuery = appState.cityRemap[cityQuery]
+                }
                 dispatch({
                     type: LocateActionType.SetChainStations,
                     newStations: chainStations
@@ -70,12 +79,19 @@ export function LocateView() {
                 })
                 appDispatch({
                     type: ActionType.SearchCity,
-                    query: chainStations[state.selectedIdx].name.split(",", 1)[0].split(" [")[0]
+                    query: cityQuery
                 })
                 suggestChainStations(chainStations[state.selectedIdx].chain_hash)
                     .then(suggestion => {
                         dispatch({
                             type: LocateActionType.SetStationsSuggestions,
+                            newSuggestions: suggestion,
+                        })
+                    })
+                suggestChainCities(chainStations[state.selectedIdx].chain_hash)
+                    .then(suggestion => {
+                        dispatch({
+                            type: LocateActionType.SetCitiesSuggestions,
                             newSuggestions: suggestion,
                         })
                     })
@@ -88,7 +104,7 @@ export function LocateView() {
         return () => {
             cancelFence = true
         }
-    }, [state.offset, state.limit, state.selectedIdx, appDispatch, state.reload]);
+    }, [state.offset, state.limit, state.selectedIdx, appDispatch, state.reload, appState.cityRemap]);
 
     const handleListingChange = useCallback((event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -102,8 +118,8 @@ export function LocateView() {
 
     function handleSelectRow(idx: number) {
         dispatch({
-            type: LocateActionType.SetSelectedIdx,
-            idx: idx
+            type: LocateActionType.SetOffset,
+            offset: state.offset + idx
         })
     }
 
@@ -203,8 +219,37 @@ export function LocateView() {
             </div>
             <div className="StationsSuggestion__wrapper map-overlay">
                 {state.stationsSuggestions.sort((left, right) => left.len - right.len)
-                    .map(suggestion => (
-                        <button key={suggestion.len}
+                    .slice(0, 20)
+                    .map((suggestion, idx) => (
+                        <button key={suggestion.len + " " + idx}
+                                onPointerLeave={() => {
+                                    dispatch({
+                                        type: LocateActionType.SetSuggestionPreview,
+                                        path: undefined
+                                    })
+                                }}
+                                onPointerEnter={(event) => {
+                                    const path = suggestion.path.filter(a => a != null)
+                                        .map(a => [a[0], a[1]]) as LatLngExpression[]
+                                    if (event.ctrlKey) {
+                                        map.fitBounds(new LatLngBounds(path))
+                                    }
+                                    dispatch({
+                                        type: LocateActionType.SetSuggestionPreview,
+                                        path: path
+                                    })
+                                }}
+                                onClick={async () => acceptStationsSuggestion(suggestion)}>
+                            {suggestion.len.toFixed(2) + " km (" + suggestion.path.filter(a => a != null).length + "/" + suggestion.path.length + ")"}
+                        </button>
+                    ))}
+            </div>
+
+            <div className="CitiesSuggestion__wrapper map-overlay">
+                {state.citiesSuggestions.sort((left, right) => left.len - right.len)
+                    .slice(0, 20)
+                    .map((suggestion, idx) => (
+                        <button key={suggestion.len + " " + idx}
                                 onPointerLeave={() => {
                                     dispatch({
                                         type: LocateActionType.SetSuggestionPreview,
@@ -214,11 +259,12 @@ export function LocateView() {
                                 onPointerEnter={() => {
                                     dispatch({
                                         type: LocateActionType.SetSuggestionPreview,
-                                        path: suggestion.path.filter(a => a != null)
-                                            .map(a => [a[0], a[1]])
+                                        path: suggestion.path.filter(a => a != null) as LatLngExpression[]
                                     })
                                 }}
-                                onClick={async () => acceptStationsSuggestion(suggestion)}
+                                onClick={() => {
+                                    map.fitBounds(new LatLngBounds(suggestion.path as LatLngExpression[]))
+                                }}
                         >
                             {suggestion.len.toFixed(2) + " km"}
                         </button>

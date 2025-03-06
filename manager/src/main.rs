@@ -6,6 +6,7 @@ mod stats;
 
 use clap::{Parser, Subcommand};
 use inv_zastavky_core::suggest::chain::{chain_options, path_options};
+use std::collections::HashMap;
 use std::path::PathBuf;
 
 struct App;
@@ -82,7 +83,9 @@ async fn main() -> anyhow::Result<()> {
             App::print_stats(&db_pool).await?;
         }
         Commands::Dev { chain_hash } => {
-            for suggestion in path_options(&mut db_pool.acquire().await?, &chain_hash).await? {
+            for suggestion in
+                path_options(&mut db_pool.acquire().await?, &chain_hash, &HashMap::new()).await?
+            {
                 println!("cities: {:?}", suggestion)
             }
             for suggestion in chain_options(&mut db_pool.acquire().await?, &chain_hash).await? {

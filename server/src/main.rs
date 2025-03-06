@@ -1,3 +1,4 @@
+use crate::config::ServerConfig;
 use crate::database::MainDB;
 use rocket::fairing::{Fairing, Info, Kind};
 use rocket::fs::FileServer;
@@ -10,6 +11,7 @@ mod api_chain;
 mod api_other;
 mod api_stations;
 mod api_suggest;
+mod config;
 mod database;
 
 #[launch]
@@ -17,6 +19,7 @@ fn rocket() -> _ {
     rocket::build()
         .attach(CORS)
         .attach(MainDB::init())
+        .manage(ServerConfig::new())
         .mount(
             "/api",
             routes![
@@ -34,7 +37,9 @@ fn rocket() -> _ {
                 api_stations::move_station,
                 api_stations::search_stations,
                 api_other::other_stats,
+                api_other::other_city_remap,
                 api_suggest::suggest_stations,
+                api_suggest::suggest_cities,
             ],
         )
         .mount("/", FileServer::from("web_ui/dist"))

@@ -1,0 +1,272 @@
+Albrechtice n.Orl.	Albrechtice nad Orlicí
+Albrechtice n.Vlt.	Albrechtice nad Vltavou
+Albrechtice v Jiz.h.	Albrechtice v Jizerských horách
+Babice n.Svit.	Babice nad Svitavou
+Bakov n.Jiz.	Bakov nad Jizerou
+Bartošovice v Orl.h.	Bartošovice v Orlických horách
+Bařice-Vel.Těšany	Bařice-Velké Těšany
+Bečov n.Teplou	Bečov nad Teplou
+Bělá n.Svit.	Bělá nad Svitavou
+Bělá p.Bezd.	Bělá pod Bezdězem
+Bělá p.Prad.	Bělá pod Pradědem
+Běleč n.Orl.	Běleč nad Orlicí
+Benátky n.Jiz.	Benátky nad Jizerou
+Benešov n.Černou	Benešov nad Černou
+Benešov n.Pl.	Benešov nad Ploučnicí
+Bernartice n.Odrou	Bernartice nad Odrou
+Bezděkov n.Met.	Bezděkov nad Metují
+Bezděkov p.Tř.	Bezděkov pod Třemšínem
+Bílovice n.Svit.	Bílovice nad Svitavou
+Bílý Kostel n.Nisou	Bílý Kostel nad Nisou
+Blatnice p.Sv.Antonínkem	Blatnice pod Svatým Antonínkem
+Bohuslavice n.Vláří	Bohuslavice nad Vláří
+Bohušovice n.Ohří	Bohušovice nad Ohří
+Boršov n.Vlt.	Boršov nad Vltavou
+Brandýs n.L.-St.Bol.	Brandýs nad Labem-Stará Boleslav
+Brandýs n.Orl.	Brandýs nad Orlicí
+Brod n.Dyjí	Brod nad Dyjí
+Brozany n.Ohří	Brozany nad Ohří
+Březí n.Osl.	Březí nad Oslavou
+Březová n.Svit.	Březová nad Svitavou
+Budišov n.Bud.	Budišov nad Budišovkou
+Budyně n.Ohří	Budyně nad Ohří
+Bukovina n.L.	Bukovina nad Labem
+Bystrá n.Jiz.	Bystrá nad Jizerou
+Bystřice n.Pern.	Bystřice nad Pernštejnem
+Bystřice p.Host.	Bystřice pod Hostýnem
+Bystřice p.Lop.	Bystřice pod Lopeníkem
+Cerekvice n.Bystř.	Cerekvice nad Bystřicí
+Cerekvice n.Loučnou	Cerekvice nad Loučnou
+Čechy p.Kosířem	Čechy pod Kosířem
+Čenkov u Bech.	Čenkov u Bechyně
+Čermná n.Orl.	Čermná nad Orlicí
+Deštné v Orl.h.	Deštné v Orlických horách
+Dětřichov n.Bystř.	Dětřichov nad Bystřicí
+Dětřichov u Mor.Třebové	Dětřichov u Moravské Třebové
+Dobronice u Bech.	Dobronice u Bechyně
+Dolánky n.Ohří	Dolánky nad Ohří
+Dolany n.Vlt.	Dolany nad Vltavou
+Dol.Staré Město	Dolní Staré Město
+Domašov n.Bystř.	Domašov nad Bystřicí
+Doudleby n.Orl.	Doudleby nad Orlicí
+Dub n.Mor.	Dub nad Moravou
+Dvory n.Luž.	Dvory nad Lužnicí
+Dvůr Králové n.L.	Dvůr Králové nad Labem
+Františkov n.Pl.	Františkov nad Ploučnicí
+Frenštát p.Radh.	Frenštát pod Radhoštěm
+Frýdlant n.Ost.	Frýdlant nad Ostravicí
+Háje n.Jiz.	Háje nad Jizerou
+Hamry n.Sáz.	Hamry nad Sázavou
+Hluboká n.Vlt.	Hluboká nad Vltavou
+Hodkovice n.Mohelkou	Hodkovice nad Mohelkou
+Hora Sv.Kateřiny	Hora Svaté Kateřiny
+Hora Sv.Šebestiána	Hora Svatého Šebestiána
+Horka n.Mor.	Horka nad Moravou
+Horka u St.Paky	Horka u Staré Paky
+Horky n.Jiz.	Horky nad Jizerou
+Hor.Staré Město	Horní Staré Město
+Hradec n.Moravicí	Hradec nad Moravicí
+Hradec n.Svit.	Hradec nad Svitavou
+Hrádek n.Nisou	Hrádek nad Nisou
+Hrušovany n.Jev.	Hrušovany nad Jevišovkou
+Hustopeče n.Bečvou	Hustopeče nad Bečvou
+Chlumec n.Cidl.	Chlumec nad Cidlinou
+Jablonec n.Jiz.	Jablonec nad Jizerou
+Jablonec n.Nisou	Jablonec nad Nisou
+Jablonné n.Orl.	Jablonné nad Orlicí
+Jablonné v Podj.	Jablonné v Podještědí
+Jakubčovice n.Odrou	Jakubčovice nad Odrou
+Jakubov u Mor.Budějovic	Jakubov u Moravských Budějovic
+Jamné n.Orl.	Jamné nad Orlicí
+Janov n.Nisou	Janov nad Nisou
+Janovice n.Úhl.	Janovice nad Úhlavou
+Janovice v Podj.	Janovice v Podještědí
+Jaroměřice n.Rok.	Jaroměřice nad Rokytnou
+Jarošov n.Než.	Jarošov nad Nežárkou
+Jeseník n.Odrou	Jeseník nad Odrou
+Jestřabí v Krk.	Jestřabí v Krkonoších
+Jindřichovice p.Smrkem	Jindřichovice pod Smrkem
+Jiřetín p.Bukovou	Jiřetín pod Bukovou
+Jiřetín p.Jedlovou	Jiřetín pod Jedlovou
+Jiřice u Mor.Budějovic	Jiřice u Moravských Budějovic
+Kamenice n.Lipou	Kamenice nad Lipou
+Kamýk n.Vlt.	Kamýk nad Vltavou
+Kladeruby n.Osl.	Kladeruby nad Oslavou
+Kladruby n.L.	Kladruby nad Labem
+Klášter Hradiště n.Jiz.	Klášter Hradiště nad Jizerou
+Klášterec n.Ohří	Klášterec nad Ohří
+Klášterec n.Orl.	Klášterec nad Orlicí
+Klenčí p.Čerch.	Klenčí pod Čerchovem
+Kobylá n.Vidnavkou	Kobylá nad Vidnavkou
+Kostelany n.Mor.	Kostelany nad Moravou
+Kostelec n.Č.l.	Kostelec nad Černými lesy
+Kostelec n.L.	Kostelec nad Labem
+Kostelec n.Orl.	Kostelec nad Orlicí
+Kostelec n.Vlt.	Kostelec nad Vltavou
+Kostelec u Heřm.Městce	Kostelec u Heřmanova Městce
+Kostomlaty n.L.	Kostomlaty nad Labem
+Kostomlaty p.Milešovkou	Kostomlaty pod Milešovkou
+Kostomlaty p.Řípem	Kostomlaty pod Řípem
+Kralice n.Osl.	Kralice nad Oslavou
+Kralupy n.Vlt.	Kralupy nad Vltavou
+Krásná Hora n.Vlt.	Krásná Hora nad Vltavou
+Kunčice n.L.	Kunčice nad Labem
+Kunčice p.Ondřejníkem	Kunčice pod Ondřejníkem
+Kynšperk n.Ohří	Kynšperk nad Ohří
+L. Kynžvart	Lázně Kynžvart
+Ledeč n.Sáz.	Ledeč nad Sázavou
+Leskovec n.Moravicí	Leskovec nad Moravicí
+Lhota p.Hořičkami	Lhota pod Hořičkami
+Lhota p.Libčany	Lhota pod Libčany
+Lhotka n.L.	Lhotka nad Labem
+Libčice n.Vlt.	Libčice nad Vltavou
+Libice n.Cidl.	Libice nad Cidlinou
+Libice n.Doubr.	Libice nad Doubravou
+Libkovice p.Řípem	Libkovice pod Řípem
+Lípa n.Orl.	Lípa nad Orlicí
+Lipnice n.Sáz.	Lipnice nad Sázavou
+Lipník n.Bečvou	Lipník nad Bečvou
+Lipno n.Vlt.	Lipno nad Vltavou
+Lomnice n.Luž.	Lomnice nad Lužnicí
+Lomnice n.Pop.	Lomnice nad Popelkou
+Loučná n.Des.	Loučná nad Desnou
+Louňovice p.Blaníkem	Louňovice pod Blaníkem
+Luboměř p.Strážnou	Luboměř pod Strážnou
+Lučany n.Nisou	Lučany nad Nisou
+Luka n.Jihlavou	Luka nad Jihlavou
+Lužec n.Cidl.	Lužec nad Cidlinou
+Lužec n.Vlt.	Lužec nad Vltavou
+Lysá n.L.	Lysá nad Labem
+Martinice v Krk.	Martinice v Krkonoších
+Milotice n.Bečvou	Milotice nad Bečvou
+Milotice n.Opavou	Milotice nad Opavou
+Mírová p.Koz.	Mírová pod Kozákovem
+Mladějov na Mor.	Mladějov na Moravě
+Mníšek p.Brdy	Mníšek pod Brdy
+Mohelnice n.Jiz.	Mohelnice nad Jizerou
+Nová Ves n.Luž.	Nová Ves nad Lužnicí
+Nová Ves n.Nisou	Nová Ves nad Nisou
+Nová Ves n.Pop.	Nová Ves nad Popelkou
+Nová Ves p.Pleší	Nová Ves pod Pleší
+Nová Ves u Ml.Vožice	Nová Ves u Mladé Vožice
+Nová Ves u N.Města na Mor.	Nová Ves u Nového Města na Moravě
+Nové Město na Mor.	Nové Město na Moravě
+Nové Město n.Met.	Nové Město nad Metují
+Nové Město p.Smrkem	Nové Město pod Smrkem
+Noviny p.Ralskem	Noviny pod Ralskem
+Novosedly n.Než.	Novosedly nad Nežárkou
+Olešnice v Orl.h.	Olešnice v Orlických horách
+Opatovice n.L.	Opatovice nad Labem
+Orlík n.Vlt.	Orlík nad Vltavou
+Osek n.Bečvou	Osek nad Bečvou
+Ostrov n.Osl.	Ostrov nad Oslavou
+Paseky n.Jiz.	Paseky nad Jizerou
+Pec p.Sněžkou	Pec pod Sněžkou
+Pertoltice p.Ralskem	Pertoltice pod Ralskem
+Petrov n.Des.	Petrov nad Desnou
+Petrovice u Karv.	Petrovice u Karviné
+Planá n.Luž.	Planá nad Lužnicí
+Podhradí n.Dyjí	Podhradí nad Dyjí
+Police n.Met.	Police nad Metují
+Pomezí n.Ohří	Pomezí nad Ohří
+Poříčí n.Sáz.	Poříčí nad Sázavou
+Proseč n.Nisou	Proseč nad Nisou
+Proseč p.Ještědem	Proseč pod Ještědem
+Proseč p.Křemešníkem	Proseč pod Křemešníkem
+Předměřice n.Jiz.	Předměřice nad Jizerou
+Předměřice n.L.	Předměřice nad Labem
+Přerov n.L.	Přerov nad Labem
+Račice n.Trotinou	Račice nad Trotinou
+Radostín n.Osl.	Radostín nad Oslavou
+Radostná p.Koz.	Radostná pod Kozákovem
+Rataje n.Sáz.	Rataje nad Sázavou
+Rokytnice n.Jiz.	Rokytnice nad Jizerou
+Rokytnice n.Rok.	Rokytnice nad Rokytnou
+Rokytnice v Orl.h.	Rokytnice v Orlických horách
+Ronov n.Doubr.	Ronov nad Doubravou
+Roudnice n.L.	Roudnice nad Labem
+Rovensko p.Tr.	Rovensko pod Troskami
+Rozseč n.Kunštátem	Rozseč nad Kunštátem
+Rožmberk n.Vlt.	Rožmberk nad Vltavou
+Rožmitál p.Tř.	Rožmitál pod Třemšínem
+Rožnov p.Radh.	Rožnov pod Radhoštěm
+Rtyně n.Bílinou	Rtyně nad Bílinou
+Rtyně v Podkr.	Rtyně v Podkrkonoší
+Ruda n.Mor.	Ruda nad Moravou
+Rudná p.Prad.	Rudná pod Pradědem
+Rybná n.Zdob.	Rybná nad Zdobnicí
+Rychnov n.Kněž.	Rychnov nad Kněžnou
+Rychnov u Jablonce n.N.	Rychnov u Jablonce nad Nisou
+Rychnov u Jablonce n.Nisou	Rychnov u Jablonce nad Nisou
+Řečany n.L.	Řečany nad Labem
+Říčky v Orl.h.	Říčky v Orlických horách
+Skalice n.Svit.	Skalice nad Svitavou
+Sklené n.Osl.	Sklené nad Oslavou
+Skuhrov n.Bělou	Skuhrov nad Bělou
+Slatina n.Úpou	Slatina nad Úpou
+Slatina n.Zdob.	Slatina nad Zdobnicí
+Slavětín n.Met.	Slavětín nad Metují
+Slavkov p.Host.	Slavkov pod Hostýnem
+Stará Červ.Voda	Stará Červená Voda
+Stará Ves n.Ondř.	Stará Ves nad Ondřejnicí
+Staré Město p.Land.	Staré Město pod Landštejnem
+Stráž n.Než.	Stráž nad Nežárkou
+Stráž n.Nisou	Stráž nad Nisou
+Stráž n.Ohří	Stráž nad Ohří
+Stráž p.Ralskem	Stráž pod Ralskem
+Strunkovice n.Blan.	Strunkovice nad Blanicí
+Strunkovice n.Vol.	Strunkovice nad Volyňkou
+Střítež n.Bečvou	Střítež nad Bečvou
+Střítež n.Ludinou	Střítež nad Ludinou
+Střítež p.Křemešníkem	Střítež pod Křemešníkem
+Sudislav n.Orl.	Sudislav nad Orlicí
+Sudoměřice u Bech.	Sudoměřice u Bechyně
+Suchdol n.Luž.	Suchdol nad Lužnicí
+Suchdol n.Odrou	Suchdol nad Odrou
+Svatý Jan n.Malší	Svatý Jan nad Malší
+Svatý Jan p.Skalou	Svatý Jan pod Skalou
+Světlá n.Sáz.	Světlá nad Sázavou
+Světlá p.Ještědem	Světlá pod Ještědem
+Svoboda n.Úpou	Svoboda nad Úpou
+Šenov u N.Jičína	Šenov u Nového Jičína
+Štěpánov n.Svratkou	Štěpánov nad Svratkou
+Štítná n.Vláří-Popov	Štítná nad Vláří-Popov
+Teplice n.Bečvou	Teplice nad Bečvou
+Teplice n.Met.	Teplice nad Metují
+Třebechovice p.Oreb.	Třebechovice pod Orebem
+Týn n.Bečvou	Týn nad Bečvou
+Týn n.Vlt.	Týn nad Vltavou
+Týnec n.L.	Týnec nad Labem
+Týnec n.Sáz.	Týnec nad Sázavou
+Týniště n.Orl.	Týniště nad Orlicí
+Újezd p.Tr.	Újezd pod Troskami
+Ústí n.L.	Ústí nad Labem
+Ústí n.Orl.	Ústí nad Orlicí
+Útěchovice p.Stražištěm	Útěchovice pod Stražištěm
+Vážany n.Litavou	Vážany nad Litavou
+V.Hleďsebe - Prádelna	Velká Hleďsebe
+Velká n.Veličkou	Velká nad Veličkou
+V.Beranov	Velký Beranov
+Veselí n.Luž.	Veselí nad Lužnicí
+Veselí n.Mor.	Veselí nad Moravou
+Vícenice u Náměště n.Osl.	Vícenice u Náměště nad Oslavou
+Víchová n.Jiz.	Víchová nad Jizerou
+Vlčkovice v Podkr.	Vlčkovice v Podkrkonoší
+Vlkov p.Oškobrhem	Vlkov pod Oškobrhem
+Vrané n.Vlt.	Vrané nad Vltavou
+Vranov n.Dyjí	Vranov nad Dyjí
+Vrbno n.Lesy	Vrbno nad Lesy
+Vrbno p.Prad.	Vrbno pod Pradědem
+Vyskytná n.Jihlavou	Vyskytná nad Jihlavou
+Vysoká n.L.	Vysoká nad Labem
+Vysoké n.Jiz.	Vysoké nad Jizerou
+Záboří n.L.	Záboří nad Labem
+Zhoř u Ml.Vožice	Zhoř u Mladé Vožice
+Zruč n.Sáz.	Zruč nad Sázavou
+Žabovřesky n.Ohří	Žabovřesky nad Ohří
+Žďár n.Met.	Žďár nad Metují
+Žďár n.Orl.	Žďár nad Orlicí
+Žďár n.Sáz.	Žďár nad Sázavou
+Ždírec n.Doubr.	Ždírec nad Doubravou
+Želechovice n.Dřev.	Želechovice nad Dřevnicí
+Životice u N.Jičína	Životice u Nového Jičína

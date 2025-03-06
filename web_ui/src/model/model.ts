@@ -62,5 +62,14 @@ export interface Stats {
 
 export interface ChainStationsSuggestion {
     len: number,
-    path: number[][]
+    chain_hash: string,
+    path: number[][],
 }
+
+export interface ChainCitiesSuggestion {
+    len: number,
+    chain_hash: string,
+    path: number[][],
+}
+
+export type CityRemap = { [key: string]: string }

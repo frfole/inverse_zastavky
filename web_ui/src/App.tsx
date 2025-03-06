@@ -3,7 +3,7 @@ import "./App.css"
 import {MapContainer, TileLayer} from "react-leaflet";
 import {BBox, Mode} from "./model/model.ts";
 import {MapRef} from "react-leaflet/MapContainer";
-import {createStation, getStations, getStats} from "./data/interact.ts";
+import {createStation, getCityRemap, getStations, getStats} from "./data/interact.ts";
 import {StationMarker} from "./components/browse/StationMarker.tsx";
 import {EditableStationMarker} from "./components/editor/EditableStationMarker.tsx";
 import {AddStationDialog} from "./components/editor/AddStationDialog.tsx";
@@ -27,6 +27,7 @@ function App() {
         stationSearch: "",
         citySearch: "",
         locateOffset: 0,
+        cityRemap: {},
     })
     const [addStationDialog, setAddStationDialog] = useState(false)
 
@@ -61,6 +62,20 @@ function App() {
                 break
         }
     }, [map, state.mode])
+
+    useEffect(() => {
+        let cancelFence = false;
+        getCityRemap().then(remap => {
+            if (cancelFence) return;
+            dispatch({
+                type: ActionType.SetCityRemap,
+                remap: remap
+            })
+        })
+        return () => {
+            cancelFence = true
+        }
+    }, []);
 
     useEffect(() => {
         if (map == null) {

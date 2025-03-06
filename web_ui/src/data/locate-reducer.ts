@@ -1,5 +1,5 @@
 import {LocateState} from "./locate-state.ts";
-import {BaseStation, ChainStation, ChainStationsSuggestion} from "../model/model.ts";
+import {BaseStation, ChainCitiesSuggestion, ChainStation, ChainStationsSuggestion} from "../model/model.ts";
 import {LatLngExpression} from "leaflet";
 
 export enum LocateActionType {
@@ -9,6 +9,7 @@ export enum LocateActionType {
     SetSelectedIdx,
     Advance,
     SetStationsSuggestions,
+    SetCitiesSuggestions,
     SetSuggestionPreview,
     Reload,
 }
@@ -42,6 +43,11 @@ export interface ActionSetStationsSuggestions {
     newSuggestions: ChainStationsSuggestion[],
 }
 
+export interface ActionSetCitiesSuggestions {
+    type: LocateActionType.SetCitiesSuggestions,
+    newSuggestions: ChainCitiesSuggestion[],
+}
+
 export interface ActionSetSuggestionPreview {
     type: LocateActionType.SetSuggestionPreview,
     path?: LatLngExpression[],
@@ -58,6 +64,7 @@ export type LocateAction =
     | ActionSetSelectedIdx
     | ActionAdvance
     | ActionSetStationsSuggestions
+    | ActionSetCitiesSuggestions
     | ActionSetSuggestionPreview
     | ActionReload
 
@@ -111,6 +118,11 @@ export function locateReducer(state: LocateState, action: LocateAction): LocateS
             return {
                 ...state,
                 stationsSuggestions: action.newSuggestions,
+            }
+        case LocateActionType.SetCitiesSuggestions:
+            return {
+                ...state,
+                citiesSuggestions: action.newSuggestions,
             }
         case LocateActionType.SetSuggestionPreview:
             return {

@@ -1,4 +1,13 @@
-import {BaseCity, BaseStation, BBox, ChainStation, ChainStationsSuggestion, Station, Stats} from "../model/model.ts";
+import {
+    BaseCity,
+    BaseStation,
+    BBox,
+    ChainCitiesSuggestion,
+    ChainStation,
+    ChainStationsSuggestion, CityRemap,
+    Station,
+    Stats
+} from "../model/model.ts";
 import {config} from "../config.ts";
 
 export async function getStations(bbox: BBox): Promise<Station[]> {
@@ -137,4 +146,19 @@ export async function suggestChainStations(chain_hash: string): Promise<ChainSta
     return await fetch(url)
         .then(response => response.ok ? response.json() : Promise.reject())
         .then(data => data as ChainStationsSuggestion[])
+}
+
+export async function suggestChainCities(chain_hash: string): Promise<ChainCitiesSuggestion[]> {
+    const url = new URL(config.api_endpoint + "/suggest_cities");
+    url.searchParams.append("chain_hash", chain_hash)
+    return await fetch(url)
+        .then(response => response.ok ? response.json() : Promise.reject())
+        .then(data => data as ChainCitiesSuggestion[])
+}
+
+export async function getCityRemap(): Promise<CityRemap> {
+    const url = new URL(config.api_endpoint + "/other_city_remap");
+    return await fetch(url)
+        .then(response => response.ok ? response.json() : Promise.reject())
+        .then(data => data as CityRemap)
 }
